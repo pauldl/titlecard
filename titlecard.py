@@ -1,16 +1,24 @@
-from flask import Flask, make_response
+from flask import Flask, make_response, request, render_template
 from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 
 app = Flask(__name__)
 
-main_title = "ESPN3 / GVSN"
-
 Arial_Black = ImageFont.truetype('fonts/Arial Black.ttf', 90)
 Arial_Regular = ImageFont.truetype('fonts/Arial.ttf', 90)
 
-@app.route('/<string:card_title>/<string:runtime>')
-def imageing(card_title, runtime):
+@app.route('/')
+def home():
+	return render_template('index.html')
+
+
+@app.route('/card')
+def imageing():
+	
+	main_title = request.args.get('main_title', 'Main Title')
+	card_title = request.args.get('card_title', 'Card Title')
+	runtime = request.args.get('runtime', 'Runtime')
+	
 	card = Image.new('RGB', (1920,1080), color='black')
 	d = ImageDraw.Draw(card)
 	d.text((400,300), main_title, fill=(255,255,255), font=Arial_Black)
