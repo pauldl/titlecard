@@ -17,9 +17,11 @@ def imageing(card_title, runtime):
 	d.text((400,475), card_title, fill=(255,255,255), font=Arial_Regular)
 	d.text((400,575), runtime, fill=(255,255,255), font=Arial_Regular)
 	
+	fname = card_title.replace(' ', '-').lower()
+	
 	imagebuffer = BytesIO()
 	card.save(imagebuffer, format='PNG')
 	response = make_response(imagebuffer.getvalue())
 	response.headers['Content-Type'] = 'image/png'
-	response.headers['Content-Disposition'] = 'inline; filename="titlecard.png"'
+	response.headers['Content-Disposition'] = 'inline; filename="' + fname + '.png"'
 	return response
